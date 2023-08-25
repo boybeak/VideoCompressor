@@ -1,0 +1,2 @@
+# VCompressor
+The original repository is [zolad/VideoSlimmer](https://github.com/zolad/VideoSlimmer). The original repository do not provide a reachable dependency now. So I copy the main logic and provide dependency in jitpack.
