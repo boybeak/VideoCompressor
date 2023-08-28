@@ -222,6 +222,7 @@ public class VideoSlimEncoder {
                                     videoTrackIndex = mMuxer.addTrack(newFormat);
                                     mTrackIndex = videoTrackIndex;
                                     mMuxer.start();
+                                    Log.d(TAG, "START 1");
                                 }
                             } else if (encoderStatus < 0) {
                                 throw new RuntimeException("unexpected result from mEncoder.dequeueOutputBuffer: " + encoderStatus);
@@ -266,6 +267,7 @@ public class VideoSlimEncoder {
                                         }
                                         videoTrackIndex = mMuxer.addTrack(newFormat);
                                         mMuxer.start();
+                                        Log.d(TAG, "START 2");
                                     }
                                 }
                                 outputDone = (mBufferInfo.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0;
@@ -415,8 +417,10 @@ public class VideoSlimEncoder {
             MediaFormat trackFormat = extractor.getTrackFormat(trackIndex);
             int muxerTrackIndex = mediaMuxer.addTrack(trackFormat);
 
-            if(!isAudio)
-             mediaMuxer.start();
+            if(!isAudio) {
+                mediaMuxer.start();
+                Log.d(TAG, "START 3");
+            }
 
             int maxBufferSize = trackFormat.getInteger(MediaFormat.KEY_MAX_INPUT_SIZE);
             boolean inputDone = false;
@@ -619,6 +623,7 @@ public class VideoSlimEncoder {
             mInputSurface = null;
         }
         if (mMuxer != null) {
+            MediaMuxerDebugger.showState(mMuxer);
             mMuxer.stop();
             mMuxer.release();
             mMuxer = null;
