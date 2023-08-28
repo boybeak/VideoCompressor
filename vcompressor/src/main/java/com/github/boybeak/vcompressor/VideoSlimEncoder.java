@@ -365,7 +365,7 @@ public class VideoSlimEncoder {
 
         } catch (Exception e) {
             error = true;
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "e: " + e.getClass().getSimpleName() + " - " + e.getMessage());
         } finally {
             if (extractor != null) {
                 extractor.release();
