@@ -623,7 +623,7 @@ public class VideoSlimEncoder {
             mInputSurface = null;
         }
         if (mMuxer != null) {
-            MediaMuxerDebugger.showState(mMuxer);
+//            MediaMuxerDebugger.showState(mMuxer);
             mMuxer.stop();
             mMuxer.release();
             mMuxer = null;

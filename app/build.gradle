@@ -30,6 +30,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    packagingOptions {
+        exclude 'builddef.lst'
+        exclude 'version.txt'
+        exclude 'isoparser-default.properties'
+    }
+    configurations.all {
+        resolutionStrategy.force 'org.aspectj:aspectjrt:1.8.2'
+    }
 }
 
 dependencies {
@@ -39,7 +47,17 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
+    implementation 'com.github.AbedElazizShe:LightCompressor:1.3.1'
+//    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.4'
+
+//    implementation 'org.mp4parser:isoparser:1.0.6'
+//    implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
+//    implementation 'org.aspectj:aspectjrt:1.7.3'
+
+    implementation 'com.arthenica:ffmpeg-kit-full:4.5.1-1'
+
     implementation project(':vcompressor')
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
