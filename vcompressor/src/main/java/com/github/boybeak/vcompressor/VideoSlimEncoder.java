@@ -42,7 +42,7 @@ public class VideoSlimEncoder {
     private static int FRAME_RATE = 25;               // 15fps
     private static int IFRAME_INTERVAL = 10;          // 10 seconds between I-frames
     private static final int MEDIATYPE_NOT_AUDIO_VIDEO = -233;
-    private final int TIMEOUT_USEC = 2500;
+    private final int TIMEOUT_USEC = 10;
 
     public  VideoSlimEncoder () {
 

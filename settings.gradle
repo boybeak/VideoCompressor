@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 rootProject.name = "VideoCompressor"
 include ':app'
 include ':vcompressor'
+include ':xcmpsor'

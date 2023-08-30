@@ -20,6 +20,7 @@ import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
 import com.github.boybeak.vcompressor.VideoSlimmer
 import com.github.boybeak.vcompressor.VideoSlimmer.ProgressListener
+import com.github.boybeak.xcmpor.CompressOptions
 import com.iceteck.silicompressorr.SiliCompressor
 import com.vincent.videocompressor.VideoCompress
 import nl.bravobit.ffmpeg.FFcommandExecuteResponseHandler
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val videoInfoTV: TextView by lazy { findViewById(R.id.videoInfo) }
+
+    private val sdkBtn: Button by lazy { findViewById(R.id.sdkBtn) }
+    private val sdkCP: CompressorProgress by lazy { findViewById(R.id.sdkCMP) }
 
     private val slimmerBtn: Button by lazy { findViewById(R.id.slimmerBtn) }
     private val slimmerCP: CompressorProgress by lazy { findViewById(R.id.slimmerCMP) }
@@ -60,6 +64,11 @@ class MainActivity : AppCompatActivity() {
         val file = copyToCacheIfNotExist()
 
         videoInfoTV.text = getVideoInfo(file)
+
+        sdkCP.setTitle("SDK")
+        sdkBtn.setOnClickListener {
+            sdkCompress(file)
+        }
 
         slimmerCP.setTitle("Slimmer")
         slimmerBtn.setOnClickListener {
@@ -126,6 +135,34 @@ class MainActivity : AppCompatActivity() {
         }
         extractor.release()
         return strBuilder.append(" FileSize: ").append(Formatter.formatFileSize(this, video.length())).toString()
+    }
+
+    private fun sdkCompress(file: File) {
+        val dst = File(externalCacheDir, "sdk.mp4")
+        if (dst.exists()) {
+            dst.delete()
+        }
+        com.github.boybeak.xcmpor.VideoCompressor.compressAsync(
+            this,
+            CompressOptions.from(file.absolutePath)
+                .sizeScale(0.5F)
+                .bitrate(715 * 1000)
+                .output(dst.absolutePath)
+                .build()
+        ).onStart {
+            sdkCP.setMax(100)
+        }.onProgress {
+            sdkCP.setProgress(it)
+            sdkCP.setText(it.toString())
+        }.onSuccess {
+            sdkCP.setText("Cost: ${it.timeCostMills / 1000F} ${getVideoInfo(it.output)}")
+        }.onError {
+
+        }.onComplete {
+
+        }.onCancel {
+
+        }.start()
     }
 
     private fun compress(file: File) {
